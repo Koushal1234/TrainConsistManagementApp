@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class UC2 {
+public class main {
     public static void main(String[] args) {
 
         List<String> bogies = new ArrayList<>();
