@@ -1,21 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class UC2 {
+public class main {
     public static void main(String[] args) {
 
-        List<String> bogies = new ArrayList<>();
+        Set<String> bogieIds = new HashSet<>();
 
-        bogies.add("Sleeper");
-        bogies.add("AC Chair");
-        bogies.add("First Class");
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG101");
+        bogieIds.add("BG103");
 
-        System.out.println("After Adding: " + bogies);
-
-        bogies.remove("AC Chair");
-
-        System.out.println("After Removal: " + bogies);
-
-        System.out.println("Contains Sleeper: " + bogies.contains("Sleeper"));
+        System.out.println("Unique Bogie IDs: " + bogieIds);
     }
 }
