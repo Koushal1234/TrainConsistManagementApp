@@ -5,23 +5,22 @@ import java.util.*;
 class MainTest {
 
     @Test
-    void testTrainSafe_validCase() {
-        List<GoodsBogie> bogies = Arrays.asList(
-                new GoodsBogie("Cylindrical", "Petroleum"),
-                new GoodsBogie("Box", "Coal"),
-                new GoodsBogie("Cylindrical", "Petroleum")
+    void testFilterConsistency() {
+
+        List<Bogie> bogies = Arrays.asList(
+                new Bogie("A", 40),
+                new Bogie("B", 60),
+                new Bogie("C", 80)
         );
 
-        assertTrue(Main.isTrainSafe(bogies));
-    }
+        List<Bogie> loopResult = Main.filterUsingLoop(bogies);
+        List<Bogie> streamResult = Main.filterUsingStream(bogies);
 
-    @Test
-    void testTrainSafe_invalidCase() {
-        List<GoodsBogie> bogies = Arrays.asList(
-                new GoodsBogie("Cylindrical", "Coal"), // ❌ invalid
-                new GoodsBogie("Box", "Coal")
-        );
+        // Both should return same number of elements
+        assertEquals(loopResult.size(), streamResult.size());
 
-        assertFalse(Main.isTrainSafe(bogies));
+        // Optional: verify actual values
+        assertEquals(2, loopResult.size());
+        assertEquals(2, streamResult.size());
     }
 }

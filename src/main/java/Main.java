@@ -1,38 +1,37 @@
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-class GoodsBogie {
-    String type;   // Cylindrical / Box
-    String cargo;  // Petroleum / Coal
+class Bogie {
+    String name;
+    int capacity;
 
-    GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
+    Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 }
 
 public class Main {
 
-    // UC12 Method
-    public static boolean isTrainSafe(List<GoodsBogie> bogies) {
+    // ✅ LOOP METHOD
+    public static List<Bogie> filterUsingLoop(List<Bogie> bogies) {
+        List<Bogie> result = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.capacity > 50) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
 
-        // Rule: Cylindrical → only Petroleum allowed
-        Predicate<GoodsBogie> safetyRule = b ->
-                !b.type.equals("Cylindrical") || b.cargo.equals("Petroleum");
-
-        return bogies.stream().allMatch(safetyRule);
+    // ✅ STREAM METHOD
+    public static List<Bogie> filterUsingStream(List<Bogie> bogies) {
+        return bogies.stream()
+                .filter(b -> b.capacity > 50)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
-
-        List<GoodsBogie> bogies = Arrays.asList(
-                new GoodsBogie("Cylindrical", "Petroleum"),
-                new GoodsBogie("Box", "Coal"),
-                new GoodsBogie("Cylindrical", "Petroleum")
-        );
-
-        boolean result = isTrainSafe(bogies);
-
-        System.out.println("Train Safety Status: " + result);
+        System.out.println("UC13 Ready");
     }
 }
