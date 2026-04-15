@@ -1,27 +1,38 @@
-import java.util.regex.*;
+import java.util.*;
+import java.util.function.Predicate;
+
+class GoodsBogie {
+    String type;   // Cylindrical / Box
+    String cargo;  // Petroleum / Coal
+
+    GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+}
 
 public class Main {
 
-    // Validate Train ID
-    public static boolean validateTrainId(String trainId) {
-        Pattern pattern = Pattern.compile("TRN-\\d{4}");
-        Matcher matcher = pattern.matcher(trainId);
-        return matcher.matches();
-    }
+    // UC12 Method
+    public static boolean isTrainSafe(List<GoodsBogie> bogies) {
 
-    // Validate Cargo Code
-    public static boolean validateCargoCode(String cargoCode) {
-        Pattern pattern = Pattern.compile("PET-[A-Z]{2}");
-        Matcher matcher = pattern.matcher(cargoCode);
-        return matcher.matches();
+        // Rule: Cylindrical → only Petroleum allowed
+        Predicate<GoodsBogie> safetyRule = b ->
+                !b.type.equals("Cylindrical") || b.cargo.equals("Petroleum");
+
+        return bogies.stream().allMatch(safetyRule);
     }
 
     public static void main(String[] args) {
 
-        String trainId = "TRN-1234";
-        String cargoCode = "PET-AB";
+        List<GoodsBogie> bogies = Arrays.asList(
+                new GoodsBogie("Cylindrical", "Petroleum"),
+                new GoodsBogie("Box", "Coal"),
+                new GoodsBogie("Cylindrical", "Petroleum")
+        );
 
-        System.out.println("Train ID Valid: " + validateTrainId(trainId));
-        System.out.println("Cargo Code Valid: " + validateCargoCode(cargoCode));
+        boolean result = isTrainSafe(bogies);
+
+        System.out.println("Train Safety Status: " + result);
     }
 }
