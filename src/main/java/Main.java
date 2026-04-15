@@ -1,11 +1,19 @@
-import java.util.*;
-import java.util.stream.Collectors;
+// Custom Exception
+class InvalidCapacityException extends Exception {
+    public InvalidCapacityException(String message) {
+        super(message);
+    }
+}
 
-class Bogie {
+// Passenger Bogie Class
+class PassengerBogie {
     String name;
     int capacity;
 
-    Bogie(String name, int capacity) {
+    PassengerBogie(String name, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than 0");
+        }
         this.name = name;
         this.capacity = capacity;
     }
@@ -13,25 +21,17 @@ class Bogie {
 
 public class Main {
 
-    // ✅ LOOP METHOD
-    public static List<Bogie> filterUsingLoop(List<Bogie> bogies) {
-        List<Bogie> result = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.capacity > 50) {
-                result.add(b);
-            }
-        }
-        return result;
-    }
-
-    // ✅ STREAM METHOD
-    public static List<Bogie> filterUsingStream(List<Bogie> bogies) {
-        return bogies.stream()
-                .filter(b -> b.capacity > 50)
-                .collect(Collectors.toList());
-    }
-
     public static void main(String[] args) {
-        System.out.println("UC13 Ready");
+
+        try {
+            PassengerBogie b1 = new PassengerBogie("AC", 50);
+            System.out.println("Bogie created: " + b1.name);
+
+            // Invalid case
+            PassengerBogie b2 = new PassengerBogie("Sleeper", -10);
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

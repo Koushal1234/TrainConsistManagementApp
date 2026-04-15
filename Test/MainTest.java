@@ -1,26 +1,26 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.*;
 
 class MainTest {
 
+    // ✅ Valid case
     @Test
-    void testFilterConsistency() {
+    void testPassengerBogie_valid() throws InvalidCapacityException {
+        PassengerBogie bogie = new PassengerBogie("AC", 50);
 
-        List<Bogie> bogies = Arrays.asList(
-                new Bogie("A", 40),
-                new Bogie("B", 60),
-                new Bogie("C", 80)
+        assertEquals("AC", bogie.name);
+        assertEquals(50, bogie.capacity);
+    }
+
+    // ❌ Invalid case
+    @Test
+    void testPassengerBogie_invalid() {
+
+        Exception exception = assertThrows(
+                InvalidCapacityException.class,
+                () -> new PassengerBogie("Sleeper", -10)
         );
 
-        List<Bogie> loopResult = Main.filterUsingLoop(bogies);
-        List<Bogie> streamResult = Main.filterUsingStream(bogies);
-
-        // Both should return same number of elements
-        assertEquals(loopResult.size(), streamResult.size());
-
-        // Optional: verify actual values
-        assertEquals(2, loopResult.size());
-        assertEquals(2, streamResult.size());
+        assertEquals("Capacity must be greater than 0", exception.getMessage());
     }
 }
