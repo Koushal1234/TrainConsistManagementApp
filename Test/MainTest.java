@@ -5,18 +5,24 @@ import java.util.*;
 class MainTest {
 
     @Test
-    void testGroupBogies_basic() {
-
+    void testTotalCapacity_basic() {
         List<Bogie> bogies = Arrays.asList(
                 new Bogie("AC", 50),
                 new Bogie("Sleeper", 70),
-                new Bogie("AC", 65)
+                new Bogie("General", 40)
         );
 
-        Map<String, List<Bogie>> result = Main.groupBogies(bogies);
+        int result = Main.totalCapacity(bogies);
 
-        // Assertions
-        assertEquals(2, result.get("AC").size());
-        assertEquals(1, result.get("Sleeper").size());
+        assertEquals(160, result);
+    }
+
+    @Test
+    void testTotalCapacity_empty() {
+        List<Bogie> bogies = new ArrayList<>();
+
+        int result = Main.totalCapacity(bogies);
+
+        assertEquals(0, result);
     }
 }

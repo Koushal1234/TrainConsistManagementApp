@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 class Bogie {
     String name;
@@ -13,10 +12,11 @@ class Bogie {
 
 public class Main {
 
-    // UC9 Method
-    public static Map<String, List<Bogie>> groupBogies(List<Bogie> bogies) {
+    // UC10 Method
+    public static int totalCapacity(List<Bogie> bogies) {
         return bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
     }
 
     public static void main(String[] args) {
@@ -24,15 +24,11 @@ public class Main {
         List<Bogie> bogies = Arrays.asList(
                 new Bogie("AC", 50),
                 new Bogie("Sleeper", 70),
-                new Bogie("AC", 65),
                 new Bogie("General", 40)
         );
 
-        Map<String, List<Bogie>> grouped = groupBogies(bogies);
+        int total = totalCapacity(bogies);
 
-        System.out.println("Grouped Bogies:");
-        grouped.forEach((key, value) -> {
-            System.out.println(key + " -> " + value.size() + " bogies");
-        });
+        System.out.println("Total Seating Capacity: " + total);
     }
 }
