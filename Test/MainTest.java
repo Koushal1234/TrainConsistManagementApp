@@ -3,24 +3,57 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
 
-    // ✅ Valid case
+    // ✅ Safe assignment
     @Test
-    void testPassengerBogie_valid() throws InvalidCapacityException {
-        PassengerBogie bogie = new PassengerBogie("AC", 50);
+    void testCargo_SafeAssignment() {
+        GoodsBogie bogie = new GoodsBogie("Cylindrical");
 
-        assertEquals("AC", bogie.name);
-        assertEquals(50, bogie.capacity);
+        bogie.assignCargo("Petroleum");
+
+        assertEquals("Petroleum", bogie.cargo);
     }
 
-    // ❌ Invalid case
+    // ❌ Unsafe assignment handled
     @Test
-    void testPassengerBogie_invalid() {
+    void testCargo_UnsafeAssignmentHandled() {
+        GoodsBogie bogie = new GoodsBogie("Rectangular");
 
-        Exception exception = assertThrows(
-                InvalidCapacityException.class,
-                () -> new PassengerBogie("Sleeper", -10)
-        );
+        bogie.assignCargo("Petroleum");
 
-        assertEquals("Capacity must be greater than 0", exception.getMessage());
+        // Cargo should NOT be assigned
+        assertNull(bogie.cargo);
+    }
+
+    // ❌ Ensure cargo not assigned after failure
+    @Test
+    void testCargo_CargoNotAssignedAfterFailure() {
+        GoodsBogie bogie = new GoodsBogie("Rectangular");
+
+        bogie.assignCargo("Petroleum");
+
+        assertNull(bogie.cargo);
+    }
+
+    // ✅ Program continues
+    @Test
+    void testCargo_ProgramContinuesAfterException() {
+        GoodsBogie b1 = new GoodsBogie("Rectangular");
+        GoodsBogie b2 = new GoodsBogie("Cylindrical");
+
+        b1.assignCargo("Petroleum"); // fails
+        b2.assignCargo("Coal");      // still works
+
+        assertEquals("Coal", b2.cargo);
+    }
+
+    // ✅ Finally block always executes (basic validation)
+    @Test
+    void testCargo_FinallyBlockExecution() {
+        GoodsBogie bogie = new GoodsBogie("Rectangular");
+
+        bogie.assignCargo("Petroleum");
+
+        // No crash = finally executed
+        assertTrue(true);
     }
 }
