@@ -11,7 +11,7 @@ class Bogie {
     }
 }
 
-public class Main {
+public class MainTest {
 
     // UC8 LOGIC METHOD
     public static List<Bogie> filterBogies(List<Bogie> bogies) {
