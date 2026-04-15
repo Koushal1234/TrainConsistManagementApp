@@ -1,39 +1,22 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
-import java.util.stream.*;
 
-class Bogie {
-    String name;
-    int capacity;
+class MainTest {
 
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-}
+    @Test
+    void testGroupBogies_basic() {
 
-public class MainTest {
+        List<Bogie> bogies = Arrays.asList(
+                new Bogie("AC", 50),
+                new Bogie("Sleeper", 70),
+                new Bogie("AC", 65)
+        );
 
-    // UC8 LOGIC METHOD
-    public static List<Bogie> filterBogies(List<Bogie> bogies) {
-        return bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-    }
+        Map<String, List<Bogie>> result = Main.groupBogies(bogies);
 
-    public static void main(String[] args) {
-
-        System.out.println("=== UC8: Filter Bogies ===");
-
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 50));
-        bogies.add(new Bogie("AC Chair", 70));
-        bogies.add(new Bogie("First Class", 65));
-
-        List<Bogie> filtered = filterBogies(bogies);
-
-        System.out.println("Filtered Bogies (Capacity > 60):");
-        for (Bogie b : filtered) {
-            System.out.println(b.name + " - " + b.capacity);
-        }
+        // Assertions
+        assertEquals(2, result.get("AC").size());
+        assertEquals(1, result.get("Sleeper").size());
     }
 }
