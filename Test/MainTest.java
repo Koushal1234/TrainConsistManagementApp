@@ -1,28 +1,49 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.*;
 
 class MainTest {
 
+    // 🔹 Train ID Tests
+
     @Test
-    void testTotalCapacity_basic() {
-        List<Bogie> bogies = Arrays.asList(
-                new Bogie("AC", 50),
-                new Bogie("Sleeper", 70),
-                new Bogie("General", 40)
-        );
-
-        int result = Main.totalCapacity(bogies);
-
-        assertEquals(160, result);
+    void testValidateTrainId_valid() {
+        assertTrue(Main.validateTrainId("TRN-1234"));
     }
 
     @Test
-    void testTotalCapacity_empty() {
-        List<Bogie> bogies = new ArrayList<>();
+    void testValidateTrainId_invalidFormat() {
+        assertFalse(Main.validateTrainId("TRN1234"));
+    }
 
-        int result = Main.totalCapacity(bogies);
+    @Test
+    void testValidateTrainId_wrongPrefix() {
+        assertFalse(Main.validateTrainId("ABC-1234"));
+    }
 
-        assertEquals(0, result);
+    @Test
+    void testValidateTrainId_lessDigits() {
+        assertFalse(Main.validateTrainId("TRN-123"));
+    }
+
+    // 🔹 Cargo Code Tests
+
+    @Test
+    void testValidateCargoCode_valid() {
+        assertTrue(Main.validateCargoCode("PET-AB"));
+    }
+
+    @Test
+    void testValidateCargoCode_lowercase() {
+        assertFalse(Main.validateCargoCode("PET-ab"));
+    }
+
+    @Test
+    void testValidateCargoCode_wrongPrefix() {
+        assertFalse(Main.validateCargoCode("CAR-AB"));
+    }
+
+    @Test
+    void testValidateCargoCode_moreLetters() {
+        assertFalse(Main.validateCargoCode("PET-ABC"));
     }
 }
